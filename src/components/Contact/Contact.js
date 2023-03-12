@@ -1,28 +1,32 @@
-import { ContactItem, ContactInfo, RemoveContBtn } from './Contact.styled';
+import { ContactItem, ContactInfo, ContBtn } from './Contact.styled';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/options';
+import { deleteContact } from 'redux/contacts/options';
+import { correctContact } from 'redux/contacts/contactsSlice';
 
-export const Contact = ({ contact: { id, name, phone } }) => {
+export const Contact = ({ contact: { id, name, number } }) => {
   const dispatch = useDispatch();
+  const handleUpdate = () => {
+    dispatch(correctContact({ name, number, id }));
+  };
 
   return (
     <ContactItem>
       <ContactInfo>
-        {name}: {phone}
+        {name}: {number}
       </ContactInfo>
-      <RemoveContBtn onClick={() => dispatch(deleteContact(id))}>
-        Delete
-      </RemoveContBtn>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <ContBtn onClick={() => dispatch(deleteContact(id))}>Delete</ContBtn>
+        <ContBtn onClick={handleUpdate}>Correct</ContBtn>
+      </div>
     </ContactItem>
   );
 };
 
 Contact.propTypes = {
   contact: PropTypes.exact({
-    createdAt: PropTypes.string,
     name: PropTypes.string,
-    phone: PropTypes.string,
+    number: PropTypes.string,
     id: PropTypes.string,
   }).isRequired,
 };

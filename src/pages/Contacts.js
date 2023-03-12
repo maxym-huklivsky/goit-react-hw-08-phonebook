@@ -1,13 +1,12 @@
-import { Container } from './App.styled';
 import { ContactsList } from 'components/ContactsList';
 import { ContactForm } from 'components/ContactForm';
 import { FilterContacts } from 'components/FilterContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchContacts } from 'redux/options';
-import { selectError, selectIsLoading } from 'redux/selectors';
+import { fetchContacts } from 'redux/contacts/options';
+import { selectError, selectIsLoading } from 'redux/contacts/selectors';
 
-export const App = () => {
+const Contacts = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectError);
   const isLoading = useSelector(selectIsLoading);
@@ -17,7 +16,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <Container>
+    <div style={{ padding: '20px' }}>
       <h1>Phonebook</h1>
       <ContactForm />
 
@@ -31,6 +30,8 @@ export const App = () => {
           Oops, something went wrong! Please reload the page
         </b>
       )}
-    </Container>
+    </div>
   );
 };
+
+export default Contacts;

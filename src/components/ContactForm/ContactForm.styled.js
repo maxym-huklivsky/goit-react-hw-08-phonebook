@@ -1,12 +1,6 @@
 import styled from '@emotion/styled';
-import { Form } from 'formik';
 
-export const Error = styled.div`
-  color: red;
-  font-size: 14px;
-`;
-
-export const FormContacts = styled(Form)`
+export const FormContacts = styled.form`
   display: inline-block;
   padding: 8px;
   min-width: 300px;

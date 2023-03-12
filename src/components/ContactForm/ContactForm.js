@@ -4,25 +4,54 @@ import {
   Label,
   InputWrapper,
   Submit,
-  Error,
 } from './ContactForm.styled';
-import { Formik, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/options';
-import { selectContacts } from 'redux/selectors';
-
-const schema = yup.object().shape({
-  name: yup.string().trim().min(4).max(24).required(),
-  number: yup.string().trim().min(6).max(13).required(),
-});
+import { addContact, updateContact } from 'redux/contacts/options';
+import { selectContacts, selectCorrectOn } from 'redux/contacts/selectors';
+import { useEffect, useState } from 'react';
 
 export const ContactForm = () => {
+  const correctOn = useSelector(selectCorrectOn);
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('+');
 
-  const handlerContact = (values, actions) => {
-    const { name, number } = values;
+  useEffect(() => {
+    if (correctOn.on) {
+      setName(correctOn.name);
+      setNumber(correctOn.number);
+    }
+  }, [correctOn]);
+
+  const handlerChangeName = e => {
+    setName(e.target.value);
+  };
+
+  const handlerChangeNumber = e => {
+    setNumber(e.target.value);
+  };
+
+  const handlerContact = e => {
+    e.preventDefault();
+
+    const name = e.currentTarget.elements.name.value;
+    const number = e.currentTarget.elements.number.value;
+
+    if (correctOn.on) {
+      dispatch(
+        updateContact({
+          name,
+          number,
+          id: correctOn.id,
+        })
+      );
+
+      setName('');
+      setNumber('+');
+
+      return;
+    }
 
     // Check name for repetition
     const normalizeName = name.toLowerCase();
@@ -47,33 +76,38 @@ export const ContactForm = () => {
 
     dispatch(addContact({ name, number }));
 
-    actions.resetForm();
+    setName('');
+    setNumber('+');
   };
 
   const idForNameInput = nanoid();
   const idForNumberInput = nanoid();
 
   return (
-    <Formik
-      initialValues={{ name: '', number: '+' }}
-      validationSchema={schema}
-      onSubmit={handlerContact}
-    >
-      <FormContacts>
-        <InputWrapper>
-          <Label htmlFor={idForNameInput}>Name</Label>
-          <Field id={idForNameInput} type="text" name="name" />
-          <ErrorMessage name="name" component={Error} />
-        </InputWrapper>
+    <FormContacts onSubmit={handlerContact}>
+      <InputWrapper>
+        <Label htmlFor={idForNameInput}>Name</Label>
+        <input
+          id={idForNameInput}
+          type="text"
+          name="name"
+          value={name}
+          onChange={handlerChangeName}
+        />
+      </InputWrapper>
 
-        <InputWrapper>
-          <Label htmlFor={idForNumberInput}>Number</Label>
-          <Field id={idForNumberInput} type="tel" name="number" />
-          <ErrorMessage name="number" component={Error} />
-        </InputWrapper>
+      <InputWrapper>
+        <Label htmlFor={idForNumberInput}>Number</Label>
+        <input
+          id={idForNumberInput}
+          type="tel"
+          name="number"
+          value={number}
+          onChange={handlerChangeNumber}
+        />
+      </InputWrapper>
 
-        <Submit type="submit">Add contact</Submit>
-      </FormContacts>
-    </Formik>
+      <Submit type="submit">{correctOn.on ? 'Update' : 'Add contact'}</Submit>
+    </FormContacts>
   );
 };

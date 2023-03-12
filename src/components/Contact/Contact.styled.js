@@ -4,6 +4,8 @@ export const ContactItem = styled.li`
   :not(:last-of-type) {
     margin-bottom: 8px;
   }
+  display: flex;
+  align-items: baseline;
 `;
 
 export const ContactInfo = styled.p`
@@ -11,7 +13,7 @@ export const ContactInfo = styled.p`
   margin: 0 10px 0 0;
 `;
 
-export const RemoveContBtn = styled.button`
+export const ContBtn = styled.button`
   font-size: 12px;
   background-color: transparent;
   border: 1px solid grey;
