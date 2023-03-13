@@ -32,26 +32,16 @@ export const ContactForm = () => {
     setNumber(e.target.value);
   };
 
+  const resetForm = () => {
+    setName('');
+    setNumber('+');
+  };
+
   const handlerContact = e => {
     e.preventDefault();
 
     const name = e.currentTarget.elements.name.value;
     const number = e.currentTarget.elements.number.value;
-
-    if (correctOn.on) {
-      dispatch(
-        updateContact({
-          name,
-          number,
-          id: correctOn.id,
-        })
-      );
-
-      setName('');
-      setNumber('+');
-
-      return;
-    }
 
     // Check name for repetition
     const normalizeName = name.toLowerCase();
@@ -61,6 +51,7 @@ export const ContactForm = () => {
     if (NameAlreadyInContacts) {
       return alert(`${name} is already in contacts.`);
     }
+    //
 
     // Check number for repetition
     let thisNameOfContact = null;
@@ -73,11 +64,21 @@ export const ContactForm = () => {
     if (NumberAlreadyInContacts) {
       return alert(`${number}(${thisNameOfContact}) is already in contacts.`);
     }
+    //
 
-    dispatch(addContact({ name, number }));
+    if (correctOn.on) {
+      dispatch(
+        updateContact({
+          name,
+          number,
+          id: correctOn.id,
+        })
+      );
+    } else {
+      dispatch(addContact({ name, number }));
+    }
 
-    setName('');
-    setNumber('+');
+    resetForm();
   };
 
   const idForNameInput = nanoid();

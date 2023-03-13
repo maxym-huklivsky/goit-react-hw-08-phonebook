@@ -20,6 +20,7 @@ const contactsSlice = createSlice({
       state.correctOn.name = action.payload.name;
       state.correctOn.number = action.payload.number;
       state.correctOn.id = action.payload.id;
+      state.items = state.items.filter(item => item.id !== action.payload.id);
     },
   },
   extraReducers: builder =>
@@ -27,24 +28,18 @@ const contactsSlice = createSlice({
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.items = action.payload;
       })
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
-      })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.items = state.items.filter(item => item.id !== action.payload.id);
       })
-      .addCase(updateContact.fulfilled, (state, action) => {
-        state.items = state.items.map(item =>
-          item.id === action.payload.id
-            ? {
-                id: item.id,
-                name: action.payload.name,
-                number: action.payload.number,
-              }
-            : item
-        );
+      .addCase(updateContact.fulfilled, state => {
         state.correctOn = { on: false, number: null, name: null, id: null };
       })
+      .addMatcher(
+        isAnyOf(addContact.fulfilled, updateContact.fulfilled),
+        (state, action) => {
+          state.items.unshift(action.payload);
+        }
+      )
       .addMatcher(
         isAnyOf(
           fetchContacts.pending,

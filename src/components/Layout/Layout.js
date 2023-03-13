@@ -43,9 +43,13 @@ export const Layout = () => {
           }}
         >
           <StyledLink to="/">Home</StyledLink>
-          <StyledLink to="/register">Register</StyledLink>
-          <StyledLink to="/login">Login</StyledLink>
-          <StyledLink to="/contacts">Contacts</StyledLink>
+          {!isLoggedIn && (
+            <>
+              <StyledLink to="/register">Register</StyledLink>
+              <StyledLink to="/login">Login</StyledLink>
+            </>
+          )}
+          {isLoggedIn && <StyledLink to="/contacts">Contacts</StyledLink>}
         </nav>
 
         {isLoggedIn && (
