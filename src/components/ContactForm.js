@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addContact, updateContact } from 'redux/contacts/options';
 import { selectContacts, selectCorrectOn } from 'redux/contacts/selectors';
 import { useEffect, useState } from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField } from '@mui/material';
 import { FilterContacts } from 'components/FilterContacts';
 
 export const ContactForm = () => {

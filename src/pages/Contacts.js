@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/options';
 import { selectError, selectIsLoading } from 'redux/contacts/selectors';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
-import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 const Contacts = () => {
   const dispatch = useDispatch();

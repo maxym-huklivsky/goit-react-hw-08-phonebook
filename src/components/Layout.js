@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserName, selectIsLoggedIn } from 'redux/auth/selectors';
 import { logout } from 'redux/auth/options';
 import { Suspense } from 'react';
-import { AppBar, Box, Button, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 
 const StyledLink = styled(Link)`
   color: #fff;

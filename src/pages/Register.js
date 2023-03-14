@@ -5,7 +5,7 @@ import {
   Grid,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from 'redux/auth/options';
 import { selectError } from 'redux/auth/selectors';

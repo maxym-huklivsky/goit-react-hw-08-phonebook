@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter } from 'redux/contacts/selectors';
 import { changeFilter } from 'redux/contacts/filterSlice';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 
 export const FilterContacts = () => {
   const filter = useSelector(selectFilter);

@@ -1,5 +1,5 @@
-import { Typography } from '@material-ui/core';
-import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import { Typography } from '@mui/material';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 const Home = () => {
   return (

@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts/options';
 import { correctContact } from 'redux/contacts/contactsSlice';
-import { Box, Button, Typography } from '@material-ui/core';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import BuildIcon from '@material-ui/icons/Build';
+import { Box, Button, Typography } from '@mui/material';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import BuildIcon from '@mui/icons-material/Build';
 
 export const Contact = ({ contact: { id, name, number } }) => {
   const dispatch = useDispatch();
