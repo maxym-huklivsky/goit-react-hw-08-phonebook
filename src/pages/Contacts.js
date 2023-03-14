@@ -1,10 +1,11 @@
 import { ContactsList } from 'components/ContactsList';
 import { ContactForm } from 'components/ContactForm';
-import { FilterContacts } from 'components/FilterContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/options';
 import { selectError, selectIsLoading } from 'redux/contacts/selectors';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -16,21 +17,30 @@ const Contacts = () => {
   }, [dispatch]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Phonebook</h1>
-      <ContactForm />
+    <Grid>
+      <Card style={{ maxWidth: 450, padding: '20px 5px', margin: '0 auto' }}>
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h5"
+            style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+          >
+            <ContactPhoneIcon color="primary" />
+            Phonebook
+          </Typography>
+          <ContactForm />
 
-      <h2>Contacts</h2>
-      <FilterContacts />
-      <ContactsList />
+          <ContactsList />
 
-      {isLoading && <b>Wait please...</b>}
-      {error && (
-        <b style={{ color: 'red' }}>
-          Oops, something went wrong! Please reload the page
-        </b>
-      )}
-    </div>
+          {isLoading && <Typography>Wait please...</Typography>}
+          {error && (
+            <Typography style={{ color: 'red' }}>
+              Oops, something went wrong! Please reload the page
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

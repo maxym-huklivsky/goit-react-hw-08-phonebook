@@ -12,7 +12,7 @@ export const ContactsList = () => {
   );
 
   return (
-    <ul>
+    <ul style={{ padding: 0, margin: 0 }}>
       {visiableContacts.map(contact => (
         <Contact key={contact.id} contact={contact} />
       ))}

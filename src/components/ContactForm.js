@@ -1,21 +1,16 @@
-import { nanoid } from 'nanoid';
-import {
-  FormContacts,
-  Label,
-  InputWrapper,
-  Submit,
-} from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, updateContact } from 'redux/contacts/options';
 import { selectContacts, selectCorrectOn } from 'redux/contacts/selectors';
 import { useEffect, useState } from 'react';
+import { Button, Grid, TextField } from '@material-ui/core';
+import { FilterContacts } from 'components/FilterContacts';
 
 export const ContactForm = () => {
   const correctOn = useSelector(selectCorrectOn);
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('+');
+  const [number, setNumber] = useState('');
 
   useEffect(() => {
     if (correctOn.on) {
@@ -34,7 +29,7 @@ export const ContactForm = () => {
 
   const resetForm = () => {
     setName('');
-    setNumber('+');
+    setNumber('');
   };
 
   const handlerContact = e => {
@@ -81,34 +76,56 @@ export const ContactForm = () => {
     resetForm();
   };
 
-  const idForNameInput = nanoid();
-  const idForNumberInput = nanoid();
-
   return (
-    <FormContacts onSubmit={handlerContact}>
-      <InputWrapper>
-        <Label htmlFor={idForNameInput}>Name</Label>
-        <input
-          id={idForNameInput}
-          type="text"
-          name="name"
-          value={name}
-          onChange={handlerChangeName}
-        />
-      </InputWrapper>
+    <form onSubmit={handlerContact} style={{ marginBottom: 36 }}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <TextField
+            value={name}
+            onChange={handlerChangeName}
+            placeholder="Enter name"
+            label="Name"
+            variant="outlined"
+            fullWidth
+            required
+            name="name"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            placeholder="Enter number"
+            label="Number"
+            variant="outlined"
+            fullWidth
+            required
+            type="tel"
+            name="number"
+            value={number}
+            onChange={handlerChangeNumber}
+          />
+        </Grid>
 
-      <InputWrapper>
-        <Label htmlFor={idForNumberInput}>Number</Label>
-        <input
-          id={idForNumberInput}
-          type="tel"
-          name="number"
-          value={number}
-          onChange={handlerChangeNumber}
-        />
-      </InputWrapper>
+        <div
+          style={{
+            display: 'flex',
+            gap: 28,
+            paddingLeft: 5,
+            paddingRight: 5,
+            marginTop: 16,
+          }}
+        >
+          <Button
+            style={{ alignSelf: 'flex-start' }}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            {correctOn.on ? 'Update' : 'Add contact'}
+          </Button>
 
-      <Submit type="submit">{correctOn.on ? 'Update' : 'Add contact'}</Submit>
-    </FormContacts>
+          <FilterContacts />
+        </div>
+      </Grid>
+    </form>
   );
 };

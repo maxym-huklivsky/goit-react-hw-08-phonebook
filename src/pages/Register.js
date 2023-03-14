@@ -1,3 +1,11 @@
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from 'redux/auth/options';
 import { selectError } from 'redux/auth/selectors';
@@ -19,28 +27,69 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        <input type="text" name="name" />
-        Name
-      </label>
-      <br />
-      <label>
-        <input type="email" name="email" />
-        Email
-      </label>
-      <br />
-      <label>
-        <input type="password" name="password" />
-        Password
-      </label>
-      <br />
-      <button type="submit">Register</button>
-      <br />
-      {error && (
-        <b style={{ color: 'red' }}>Name, email or password is incorrect</b>
-      )}
-    </form>
+    <Grid>
+      <Card style={{ maxWidth: 450, padding: '20px 5px', margin: '0 auto' }}>
+        <CardContent>
+          <Typography gutterBottom variant="h5">
+            Register
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={1}>
+              <Grid xs={12} item>
+                <TextField
+                  placeholder="Enter first name"
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="email"
+                  placeholder="Enter email"
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="password"
+                  placeholder="Enter password"
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="password"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Submit
+                </Button>
+              </Grid>
+
+              {error && (
+                <Typography style={{ color: 'red' }}>
+                  Name, email or password is incorrect
+                </Typography>
+              )}
+            </Grid>
+          </form>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 
