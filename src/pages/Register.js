@@ -7,23 +7,28 @@ import {
   Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from 'redux/auth/options';
+import { useForm } from 'react-hook-form';
+
+import { authRegister } from 'redux/auth/options';
 import { selectError } from 'redux/auth/selectors';
+import { emailSchema, nameSchema, passwordSchema } from '../validSchemas';
 
 const Register = () => {
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: 'onChange',
+  });
 
-    const form = e.currentTarget.elements;
+  const onSubmit = data => {
+    const { name, email, password } = data;
 
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
-
-    dispatch(register({ name, email, password }));
+    dispatch(authRegister({ name, email, password }));
   };
 
   return (
@@ -34,7 +39,7 @@ const Register = () => {
             Register
           </Typography>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={1}>
               <Grid xs={12} item>
                 <TextField
@@ -43,8 +48,13 @@ const Register = () => {
                   variant="outlined"
                   fullWidth
                   required
-                  name="name"
+                  {...register('name', nameSchema)}
                 />
+                {errors.name && (
+                  <span style={{ color: 'red' }}>
+                    {errors.name.message || 'Error'}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -54,8 +64,13 @@ const Register = () => {
                   variant="outlined"
                   fullWidth
                   required
-                  name="email"
+                  {...register('email', emailSchema)}
                 />
+                {errors.email && (
+                  <span style={{ color: 'red' }}>
+                    {errors.email.message || 'Error'}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -65,8 +80,13 @@ const Register = () => {
                   variant="outlined"
                   fullWidth
                   required
-                  name="password"
+                  {...register('password', passwordSchema)}
                 />
+                {errors.password && (
+                  <span style={{ color: 'red' }}>
+                    {errors.password.message || 'Error'}
+                  </span>
+                )}
               </Grid>
 
               <Grid item xs={12}>

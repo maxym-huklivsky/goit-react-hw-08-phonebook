@@ -6,25 +6,29 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { login } from 'redux/auth/options';
 import { selectError } from 'redux/auth/selectors';
+import { emailSchema, passwordSchema } from 'validSchemas';
 
 const Login = () => {
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: 'onChange',
+  });
 
-    const form = e.currentTarget.elements;
-
-    const email = form.email.value;
-    const password = form.password.value;
+  const onSubmit = data => {
+    const { email, password } = data;
 
     dispatch(login({ email, password }));
-
-    e.currentTarget.reset();
   };
 
   return (
@@ -35,7 +39,7 @@ const Login = () => {
             Login
           </Typography>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TextField
@@ -45,8 +49,13 @@ const Login = () => {
                   variant="outlined"
                   fullWidth
                   required
-                  name="email"
+                  {...register('email', emailSchema)}
                 />
+                {errors.email && (
+                  <span style={{ color: 'red' }}>
+                    {errors.email.message || 'Error'}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -56,8 +65,13 @@ const Login = () => {
                   variant="outlined"
                   fullWidth
                   required
-                  name="password"
+                  {...register('password', passwordSchema)}
                 />
+                {errors.password && (
+                  <span style={{ color: 'red' }}>
+                    {errors.password.message || 'Error'}
+                  </span>
+                )}
               </Grid>
 
               <Grid item xs={12}>

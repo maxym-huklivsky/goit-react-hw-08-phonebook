@@ -1,4 +1,4 @@
-import { login, logout, refresh, register } from './options';
+import { login, logout, refresh, authRegister } from './options';
 
 const { createSlice, isAnyOf } = require('@reduxjs/toolkit/dist');
 
@@ -30,7 +30,7 @@ const authSlice = createSlice({
         state.isRefreshing = false;
       })
       .addMatcher(
-        isAnyOf(register.fulfilled, login.fulfilled),
+        isAnyOf(authRegister.fulfilled, login.fulfilled),
         (state, action) => {
           state.user = action.payload.user;
           state.token = action.payload.token;
@@ -38,13 +38,13 @@ const authSlice = createSlice({
         }
       )
       .addMatcher(
-        isAnyOf(register.rejected, login.rejected, logout.rejected),
+        isAnyOf(authRegister.rejected, login.rejected, logout.rejected),
         (state, action) => {
           state.error = action.payload;
         }
       )
       .addMatcher(
-        isAnyOf(register.fulfilled, login.fulfilled, logout.fulfilled),
+        isAnyOf(authRegister.fulfilled, login.fulfilled, logout.fulfilled),
         state => {
           state.error = null;
         }
